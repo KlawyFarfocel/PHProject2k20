@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 09 Wrz 2020, 13:17
--- Wersja serwera: 10.4.8-MariaDB
--- Wersja PHP: 7.3.11
+-- Czas generowania: 11 Wrz 2020, 09:04
+-- Wersja serwera: 10.4.11-MariaDB
+-- Wersja PHP: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -47,7 +47,7 @@ CREATE TABLE `adress` (
 CREATE TABLE `buy` (
   `buy_id` int(11) NOT NULL,
   `cart_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `amount` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -133,7 +133,7 @@ ALTER TABLE `adress`
 ALTER TABLE `buy`
   ADD PRIMARY KEY (`buy_id`),
   ADD KEY `cart_id` (`cart_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`product_id`);
 
 --
 -- Indeksy dla tabeli `cart`
@@ -218,6 +218,19 @@ ALTER TABLE `user`
 --
 -- Ograniczenia dla zrzutów tabel
 --
+
+--
+-- Ograniczenia dla tabeli `buy`
+--
+ALTER TABLE `buy`
+  ADD CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `buy_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ograniczenia dla tabeli `product`
